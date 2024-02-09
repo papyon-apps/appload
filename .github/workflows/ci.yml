@@ -31,7 +31,7 @@ jobs:
         key: ${{ secrets.PPYNSRVKEY }}
         port: ${{ secrets.SERVER_PORT }}
         script: |
-          cd /opt/essay-mate-backend
+          cd /opt/appload
           docker compose build
           docker compose stop
           docker compose up -d
