@@ -21,4 +21,4 @@ jobs:
         key: ${{ secrets.PPYNSRVKEY }}
         port: ${{ secrets.SERVER_PORT }}
         source: "."
-        target: "/opt/essay-mate-backend"
+        target: "/opt/appload"
