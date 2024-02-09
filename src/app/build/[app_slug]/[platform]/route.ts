@@ -28,7 +28,9 @@ export function GET(request: Request, { params }: Params) {
       if (!iosBuild) {
         return new Response("No iOS development build found", { status: 404 });
       }
+      const size = fs.statSync(path.join(directory, iosBuild)).size;
       headers.set("Content-Disposition", `attachment; filename=${iosBuild}`);
+      headers.set("Content-Length", size.toString());
       const content = fs.readFileSync(path.join(directory, iosBuild));
 
       return new Response(content, { headers });
@@ -40,10 +42,12 @@ export function GET(request: Request, { params }: Params) {
           status: 404,
         });
       }
+      const size = fs.statSync(path.join(directory, androidBuild)).size;
       headers.set(
         "Content-Disposition",
         `attachment; filename=${androidBuild}`
       );
+      headers.set("Content-Length", size.toString());
       const content = fs.readFileSync(path.join(directory, androidBuild));
 
       return new Response(content, { headers });
