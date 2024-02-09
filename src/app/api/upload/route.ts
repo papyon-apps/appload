@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import JSZip from "jszip";
-import { ManifestParser } from "@/utils/extract-tools/manifest";
+import { ManifestParser } from "@/lib/extract-tools/manifest";
 import slugify from "slugify";
 import { UPLOAD_DIR } from "@/constants";
 import * as PlistParser from "plist";

@@ -9,4 +9,4 @@ services:
     volumes:
       - ./uploads:/app/uploads
     ports:
-      - "3000:3000"
+      - "3005:3000"

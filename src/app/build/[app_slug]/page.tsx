@@ -1,91 +1,80 @@
-import { UPLOAD_DIR } from "@/constants";
+import { HOST, UPLOAD_DIR } from "@/constants";
 import path from "path";
 import fs from "fs";
 import { notFound } from "next/navigation";
-import qrcode from 'qrcode'
-import Image from "next/image";
+import qrcode from "qrcode";
+import { Artifacts } from "@/types";
+import { Builds } from "@/components/Builds";
 
 type Props = {
-    params: {
-        app_slug: string
-    }
-}
-
-type IOSArtifact = {
-    downloadUrl: string
-    metadata: { downloadManifestUrl: string, manifestQrCode: string }
-}
-
-type AndroidArtifact = {
-    downloadUrl: string
-    metadata: unknown | null
-}
-
-type Artifacts = {
-    android: AndroidArtifact | null
-    ios: IOSArtifact | null
-
-}
-
-const HOST = process.env.HOST as string;
+  params: {
+    app_slug: string;
+  };
+};
 
 const getArtifacts = async (app_slug: string) => {
-    const directory = path.join(UPLOAD_DIR, app_slug);
+  const directory = path.join(UPLOAD_DIR, app_slug);
 
-    if (!fs.existsSync(directory)) {
-        return null;
+  if (!fs.existsSync(directory)) {
+    return null;
+  }
+
+  const artifacts: Artifacts = {
+    android: null,
+    ios: null,
+  };
+
+  const files = fs.readdirSync(directory);
+
+  for await (const file of files) {
+    const ext = path.extname(file).toLowerCase();
+    switch (ext) {
+      case ".apk": {
+        const metadata = files.find((file) => file.endsWith(".android.json"));
+        const metadataContent = fs
+          .readFileSync(path.join(directory, metadata!))
+          .toString();
+
+        const qrCode = await qrcode.toDataURL(
+          `${HOST}/build/${app_slug}/android`
+        );
+        artifacts.android = {
+          downloadUrl: `/build/${app_slug}/android`,
+          downloadQrCode: qrCode,
+          metadata: JSON.parse(metadataContent),
+        };
+        break;
+      }
+      case ".ipa": {
+        const metadata = files.find((file) => file.endsWith(".ios.json"));
+        const metadataContent = fs
+          .readFileSync(path.join(directory, metadata!))
+          .toString();
+
+        const manifestUrl = `/build/${app_slug}/ios/manifest`;
+        const manifestQrCodeUrl = `itms-services://?action=download-manifest&amp;url=${HOST}${manifestUrl}`;
+        const manifestQrCode = await qrcode.toDataURL(manifestQrCodeUrl);
+        artifacts.ios = {
+          downloadUrl: `/build/${app_slug}/ios`,
+          downloadManifestUrl: manifestUrl,
+          manifestQrCode: manifestQrCode,
+          manifestQrCodeUrl,
+          metadata: JSON.parse(metadataContent),
+        };
+        break;
+      }
     }
+  }
 
-    const artifacts: Artifacts = {
-        android: null,
-        ios: null
-    }
-
-    const files = fs.readdirSync(directory);
-
-    for await (const file of files) {
-        const ext = path.extname(file).toLowerCase();
-        if (ext === ".apk") {
-            artifacts.android = {
-                downloadUrl: `/build/${app_slug}/android`,
-                metadata: null
-            }
-        } else if (ext === ".ipa") {
-            const manifestUrl = `/build/${app_slug}/ios/manifest`;
-
-            const qrCode = await qrcode.toDataURL(`itms-services://?action=download-manifest&amp;url=${HOST}${manifestUrl}`);
-            artifacts.ios = {
-                downloadUrl: `/build/${app_slug}/ios`,
-                metadata: {
-                    downloadManifestUrl: manifestUrl,
-                    manifestQrCode: qrCode
-                }
-            }
-        }
-    }
-
-    return artifacts;
-}
-
+  return artifacts;
+};
 
 export default async function Page({ params }: Props) {
-    const artifacts = await getArtifacts(params.app_slug);
+  const artifacts = await getArtifacts(params.app_slug);
 
+  if (!artifacts) {
+    return notFound();
+  }
 
-    if (!artifacts) {
-        return notFound();
-    }
-    return <div>
-        <h1>Builds</h1>
-        <ul>
-            {artifacts.android && <li><a href={artifacts.android.downloadUrl}>Android</a></li>}
-            {artifacts.ios && (<li><a href={artifacts.ios.downloadUrl}>iOS</a>
-                <ul>
-                    <li><a href={artifacts.ios.metadata.downloadManifestUrl}>Manifest</a></li>
-                    <li><Image width={300} height={300} src={artifacts.ios.metadata.manifestQrCode} alt="iOS Manifest QR Code" /></li>
-                </ul>
-            </li>
-            )}
-        </ul>
-    </div>
+  return <Builds artifacts={artifacts} />;
 }
