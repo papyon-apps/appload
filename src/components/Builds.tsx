@@ -13,8 +13,9 @@ import {
   DrawerClose,
 } from "./ui/drawer";
 import Image from "next/image";
-import { isMobileSafari } from "@/lib/utils";
+
 import Link from "next/link";
+import { isMobileSafari } from "@/lib/utils";
 
 type Props = {
   artifacts: Artifacts;
