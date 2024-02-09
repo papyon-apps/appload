@@ -100,7 +100,7 @@ export async function PUT(req: Request) {
         JSON.stringify(manifest, null, 2)
       );
 
-      return NextResponse.json(`/artifact/${appSlug}`);
+      return NextResponse.json(`${HOST}/build/${appSlug}`);
     }
 
     case "ipa": {
