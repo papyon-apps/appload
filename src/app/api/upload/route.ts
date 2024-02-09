@@ -4,7 +4,7 @@ import path from "path";
 import JSZip from "jszip";
 import { ManifestParser } from "@/lib/extract-tools/manifest";
 import slugify from "slugify";
-import { UPLOAD_DIR } from "@/constants";
+import { HOST, UPLOAD_DIR } from "@/constants";
 import * as PlistParser from "plist";
 
 const ALLOWED_EXTENSIONS = ["apk", "ipa"];
@@ -164,7 +164,7 @@ export async function PUT(req: Request) {
         JSON.stringify(plist, null, 2)
       );
 
-      return NextResponse.json(`/artifact/${appSlug}`);
+      return NextResponse.json(`${HOST}/build/${appSlug}`);
     }
 
     default: {
