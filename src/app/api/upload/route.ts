@@ -40,7 +40,10 @@ export async function PUT(req: Request) {
     );
   }
 
-  const appSlug = `${slugify(appName, { lower: true })}`;
+  const appSlug = `${slugify(appName, {
+    lower: true,
+    remove: /[*+~.()'"!:@\/]/g,
+  })}`;
 
   const artifactFile = await artifact.arrayBuffer();
   const artifactBuffer = Buffer.from(artifactFile);
