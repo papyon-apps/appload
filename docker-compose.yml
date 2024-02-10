@@ -12,3 +12,4 @@ services:
       - "3005:3000"
     environment:
       - HOST=${HOST}
+      - NEXT_PUBLIC_HOST=${HOST}
