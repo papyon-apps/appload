@@ -10,3 +10,5 @@ services:
       - ./uploads:/app/uploads
     ports:
       - "3005:3000"
+    environment:
+      - HOST=${HOST}
