@@ -2,11 +2,12 @@
 
 ## Introduction
 
-This platform is a web application that allows users to upload build artifacts and share them with other team members. You can share ad-hoc builds and apk files. Appload also support direct install ipa files for iOS applications through the iTunes.
+
+This platform is a web-based application designed to facilitate the uploading and sharing of build artifacts among team members. It supports ad-hoc builds and APK files, along with direct installation of IPA files for iOS applications via iTunes.
 
 ## Installation
 
-Install the dependencies
+To set up the platform, start by installing the dependencies:
 
 ```
 yarn install
@@ -34,7 +35,7 @@ yarn build && yarn start
 
 ## Usage
 
-After starting the server, you can access the platform through the browser at `http://localhost:3000`. You can upload the artifacts by any tool that supports the `multipart/form-data` format. You can use the `curl` command to upload the artifacts.
+Once the server is up, access the platform via a web browser at http://localhost:3000. Artifacts can be uploaded using any tool that supports the multipart/form-data format. For example, to upload artifacts via the curl command:
 
 ```bash
 curl --location --request PUT 'http://localhost:3000/api/upload' \
