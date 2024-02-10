@@ -33,6 +33,7 @@ jobs:
           script: |
             cd /opt/appload
             export HOST=${{ secrets.HOST }}
+            printenv
             docker compose build
             docker compose stop
             docker compose up -d
