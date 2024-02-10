@@ -21,9 +21,6 @@ Copy the `.env.example` file to `.env` and update the environment variables as n
 cp .env.example .env
 ```
 
-Fill required environment variables.
-
-
 Start the server
 
 ```
