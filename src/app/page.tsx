@@ -14,7 +14,7 @@ const getArtifactNames = async () => {
 };
 
 const command = `$ curl --location --request PUT '${HOST}/api/upload' \ \r
---form 'artifact=@"/path/to/your/artifact.zip"' \ \r
+--form 'artifact=@"/path/to/your/artifact.ipa"' \ \r
 --form 'appName="your-app-name"' --progress-bar  | cat`;
 
 export default async function Home() {
