@@ -15,13 +15,13 @@ To set up the platform, start by installing the dependencies:
 yarn install
 ```
 
-Add the environment variables to the `.env` file
+Copy the `.env.example` file to `.env` and update the environment variables as needed.
 
-```
-HOST=localhost:3000 
+```bash
+cp .env.example .env
 ```
 
-the `HOST` variable is used to share the link to the artifacts.
+Fill required environment variables.
 
 
 Start the server
