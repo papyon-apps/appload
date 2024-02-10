@@ -32,7 +32,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /opt/appload
-            export DOMAIN=${{ secrets.DOMAIN }}
+            export HOST=${{ secrets.HOST }}
             docker compose build
             docker compose stop
             docker compose up -d
