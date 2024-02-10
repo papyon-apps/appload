@@ -13,7 +13,6 @@ import {
 import Image from "next/image";
 
 import Link from "next/link";
-import { isMobileSafari } from "@/lib/utils";
 import {
   Card,
   CardHeader,
@@ -23,6 +22,7 @@ import {
 } from "./ui/card";
 import { DiAndroid, DiApple } from "react-icons/di";
 import { HiOutlineDownload, HiOutlineInformationCircle } from "react-icons/hi";
+import { headers } from "next/headers";
 
 type Props = {
   artifacts: Artifacts;
@@ -36,9 +36,15 @@ const humanReadableSize = (size: number) => {
 };
 
 export function Builds({ artifacts }: Props) {
+  const headerLists = headers();
+  const isMobileSafari =
+    headerLists.get("user-agent")?.match(/(iPod|iPhone|iPad)/) &&
+    headerLists.get("user-agent")?.match(/AppleWebKit/);
+
   return (
     <div className="flex flex-col justify-center items-center p-10">
-      <h1 className="text-5xl">Builds</h1>
+      <h1 className="text-5xl">Builds </h1>
+
       <div className="flex flex-col lg:flex-row items-center gap-10 mt-10">
         {artifacts.android && (
           <Card>
@@ -124,13 +130,13 @@ export function Builds({ artifacts }: Props) {
               <Button asChild variant="secondary" className="w-full mt-2">
                 <Link
                   href={
-                    isMobileSafari()
+                    isMobileSafari
                       ? artifacts.ios.manifestQrCodeUrl
                       : artifacts.ios.downloadUrl
                   }
                 >
                   <HiOutlineDownload className="mr-2" size={24} />
-                  Download{" "}
+                  {isMobileSafari ? "Install" : "Download"}
                   <span className="ml-1 text-gray-400">
                     ({humanReadableSize(artifacts.ios.size)})
                   </span>
