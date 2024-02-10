@@ -13,7 +13,7 @@ const getArtifactNames = async () => {
   );
 };
 
-const command = `$ curl --location --request PUT '${HOST}/api/upload' \ \r
+const command = `$ curl --location --request PUT '${process.env.NEXT_PUBLIC_HOST}/api/upload' \ \r
 --form 'artifact=@"/path/to/your/artifact.zip"' \ \r
 --form 'appName="your-app-name"' --progress-bar  | cat`;
 
