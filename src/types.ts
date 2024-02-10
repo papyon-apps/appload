@@ -3,12 +3,14 @@ type IOSArtifact = {
   downloadManifestUrl: string;
   manifestQrCode: string;
   manifestQrCodeUrl: string;
+  size: number;
   metadata: Record<string, unknown>;
 };
 
 type AndroidArtifact = {
   downloadUrl: string;
   downloadQrCode: string;
+  size: number;
   metadata: Record<string, unknown>;
 };
 

@@ -28,6 +28,7 @@ const getArtifacts = async (app_slug: string) => {
 
   for await (const file of files) {
     const ext = path.extname(file).toLowerCase();
+    const size = fs.statSync(path.join(directory, file)).size;
     switch (ext) {
       case ".apk": {
         const metadata = files.find((file) => file.endsWith(".android.json"));
@@ -41,6 +42,7 @@ const getArtifacts = async (app_slug: string) => {
         artifacts.android = {
           downloadUrl: `/build/${app_slug}/android`,
           downloadQrCode: qrCode,
+          size,
           metadata: JSON.parse(metadataContent),
         };
         break;
@@ -59,6 +61,7 @@ const getArtifacts = async (app_slug: string) => {
           downloadManifestUrl: manifestUrl,
           manifestQrCode: manifestQrCode,
           manifestQrCodeUrl,
+          size,
           metadata: JSON.parse(metadataContent),
         };
         break;
