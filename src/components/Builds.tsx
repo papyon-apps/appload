@@ -55,6 +55,10 @@ export function Builds({ artifacts }: Props) {
                 src={artifacts.android.downloadQrCode}
                 alt="Android QR Code"
               />
+              <p className="text-center text-gray-500 mt-2">
+                <span className="font-bold">Upload Date: </span>
+                {new Date(artifacts.android.uploadDate).toLocaleDateString()}
+              </p>
             </CardContent>
             <CardFooter className="flex-col">
               <Button asChild variant="secondary" className="w-full mt-2">
@@ -111,6 +115,10 @@ export function Builds({ artifacts }: Props) {
                 src={artifacts.ios.manifestQrCode}
                 alt="Android QR Code"
               />
+              <p className="text-center text-gray-500 mt-2">
+                <span className="font-bold">Upload Date: </span>
+                {new Date(artifacts.ios.uploadDate).toLocaleDateString()}
+              </p>
             </CardContent>
             <CardFooter className="flex-col">
               <Button asChild variant="secondary" className="w-full mt-2">
