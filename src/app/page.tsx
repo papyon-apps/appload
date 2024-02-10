@@ -13,22 +13,12 @@ const getArtifactNames = async () => {
   );
 };
 
-const getCommand = () => {
-  return Promise.resolve(`$ curl --location --request PUT '${HOST}/api/upload' \ \r
-  --form 'artifact=@"/path/to/your/artifact.zip"' \ \r
-  --form 'appName="your-app-name"' --progress-bar  | cat`);
-};
+const command = `$ curl --location --request PUT '${HOST}/api/upload' \ \r
+--form 'artifact=@"/path/to/your/artifact.zip"' \ \r
+--form 'appName="your-app-name"' --progress-bar  | cat`;
 
 export default async function Home() {
   const artifactNames = await getArtifactNames();
-
-  // Ugly hack to get environment variables in the browser without NEXT_PUBLIC_ prefix
-  const command = await getCommand();
-
-  console.log("artifactNames", artifactNames);
-  console.log("command", command);
-  
-  
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-5 lg:p-24">
