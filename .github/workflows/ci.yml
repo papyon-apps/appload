@@ -33,6 +33,7 @@ jobs:
           script: |
             cd /opt/appload
             export HOST=${{ secrets.HOST }}
+            export NEXT_PUBLIC_HOST=${{ secrets.HOST }}
             docker compose build
             docker compose stop
             docker compose up -d
