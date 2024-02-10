@@ -1,5 +1,7 @@
 # Papyonlab's Artifacts Platform
 
+![image](https://github.com/papyon-apps/appload/assets/22038798/14bdaaf6-85b5-4b5b-adb7-7b9040e0d32e)
+
 ## Introduction
 
 
