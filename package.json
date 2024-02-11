@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
+    "@t3-oss/env-core": "^0.9.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "jszip": "^3.10.1",
@@ -26,7 +27,8 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",
-    "vaul": "^0.9.0"
+    "vaul": "^0.9.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/jszip": "^3.4.1",

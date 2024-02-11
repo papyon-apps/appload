@@ -4,8 +4,9 @@ import path from "path";
 import JSZip from "jszip";
 import { ManifestParser } from "@/lib/extract-tools/manifest";
 import slugify from "slugify";
-import { HOST, UPLOAD_DIR } from "@/constants";
+import { UPLOAD_DIR } from "@/constants";
 import * as PlistParser from "plist";
+import { env } from "@/env";
 
 const ALLOWED_EXTENSIONS = ["apk", "ipa"];
 
@@ -94,7 +95,7 @@ export async function PUT(req: Request) {
         JSON.stringify(manifest, null, 2)
       );
 
-      return NextResponse.json(`${HOST}/build/${appSlug}`);
+      return NextResponse.json(`${env.HOST}/build/${appSlug}`);
     }
 
     case "ipa": {
@@ -152,7 +153,7 @@ export async function PUT(req: Request) {
         JSON.stringify(plist, null, 2)
       );
 
-      return NextResponse.json(`${HOST}/build/${appSlug}`);
+      return NextResponse.json(`${env.HOST}/build/${appSlug}`);
     }
 
     default: {

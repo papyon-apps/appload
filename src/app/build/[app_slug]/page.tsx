@@ -1,10 +1,11 @@
-import { HOST, UPLOAD_DIR } from "@/constants";
+import { UPLOAD_DIR } from "@/constants";
 import path from "path";
 import fs from "fs";
 import { notFound } from "next/navigation";
 import qrcode from "qrcode";
 import { Artifacts } from "@/types";
 import { Builds } from "@/components/Builds";
+import { env } from "@/env";
 
 type Props = {
   params: {
@@ -38,7 +39,7 @@ const getArtifacts = async (app_slug: string) => {
           .toString();
 
         const qrCode = await qrcode.toDataURL(
-          `${HOST}/build/${app_slug}/android`
+          `${env.HOST}/build/${app_slug}/android`
         );
         artifacts.android = {
           downloadUrl: `/build/${app_slug}/android`,
@@ -56,7 +57,7 @@ const getArtifacts = async (app_slug: string) => {
           .toString();
 
         const manifestUrl = `/build/${app_slug}/ios/manifest`;
-        const manifestQrCodeUrl = `itms-services://?action=download-manifest&amp;url=${HOST}${manifestUrl}`;
+        const manifestQrCodeUrl = `itms-services://?action=download-manifest&amp;url=${env.HOST}${manifestUrl}`;
         const manifestQrCode = await qrcode.toDataURL(manifestQrCodeUrl);
         artifacts.ios = {
           downloadUrl: `/build/${app_slug}/ios`,
