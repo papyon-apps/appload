@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && rimraf .next/standalone/uploads/*",
     "start": "next start",
     "lint": "next lint"
   },
@@ -40,6 +40,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
+    "rimraf": "^5.0.5",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }

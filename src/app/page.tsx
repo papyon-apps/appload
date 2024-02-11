@@ -5,9 +5,11 @@ import fs from "fs";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 const getArtifactNames = async () => {
   const files = await fs.promises.readdir(UPLOAD_DIR);
-
+  
   return files.filter((maybeDir) =>
     fs.lstatSync(path.join(UPLOAD_DIR, maybeDir)).isDirectory()
   );
