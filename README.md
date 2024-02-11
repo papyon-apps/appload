@@ -28,7 +28,25 @@ yarn build && yarn start
 ```
 
 ### Via Docker
-// TODO
+
+Copy the `.env.example` file to `.env` and update the environment variables as needed.
+
+```bash
+cp .env.example .env
+```
+
+Build the Docker image with docker-compose:
+
+```bash
+docker-compose build
+```
+
+Start the server:
+
+```bash
+docker-compose up -d
+```
+
 
 
 
