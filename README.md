@@ -35,16 +35,16 @@ Copy the `.env.example` file to `.env` and update the environment variables as n
 cp .env.example .env
 ```
 
-Build the Docker image with docker-compose:
+Build the Docker image
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 Start the server:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 
