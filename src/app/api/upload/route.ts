@@ -87,19 +87,10 @@ export async function PUT(req: Request) {
       }
 
       // write new apk file
-      fs.writeFileSync(
-        path.join(
-          dirPath,
-          `${packageName.replaceAll(".", "_")}-${versionCode}.apk`
-        ),
-        artifactBuffer
-      );
+      fs.writeFileSync(path.join(dirPath, `android.apk`), artifactBuffer);
       // write metadata
       fs.writeFileSync(
-        path.join(
-          dirPath,
-          `${packageName.replaceAll(".", "_")}-${versionCode}.android.json`
-        ),
+        path.join(dirPath, `metadata.android.json`),
         JSON.stringify(manifest, null, 2)
       );
 
@@ -153,17 +144,11 @@ export async function PUT(req: Request) {
       }
 
       // write new ipa file
-      fs.writeFileSync(
-        path.join(dirPath, `${bundleId.replaceAll(".", "_")}-${version}.ipa`),
-        artifactBuffer
-      );
+      fs.writeFileSync(path.join(dirPath, `ios.ipa`), artifactBuffer);
 
       // write metadata
       fs.writeFileSync(
-        path.join(
-          dirPath,
-          `${bundleId.replaceAll(".", "_")}-${version}.ios.json`
-        ),
+        path.join(dirPath, `metadata.ios.json`),
         JSON.stringify(plist, null, 2)
       );
 
