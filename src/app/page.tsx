@@ -1,26 +1,30 @@
-import { HOST, UPLOAD_DIR } from "@/constants";
+import { UPLOAD_DIR } from "@/constants";
 import Image from "next/image";
 import path from "path";
 import fs from "fs";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { env } from "@/env";
 
 export const dynamic = "force-dynamic";
 
 const getArtifactNames = async () => {
   const files = await fs.promises.readdir(UPLOAD_DIR);
-  
+
   return files.filter((maybeDir) =>
     fs.lstatSync(path.join(UPLOAD_DIR, maybeDir)).isDirectory()
   );
 };
 
-const command = `$ curl --location --request PUT '${HOST}/api/upload' \ \r
---form 'artifact=@"/path/to/your/artifact.ipa"' \ \r
---form 'appName="your-app-name"' --progress-bar  | cat`;
+const getExampleCommand = () => {
+  return Promise.resolve(`$ curl --location --request PUT '${env.HOST}/api/upload' \ \r
+  --form 'artifact=@"/path/to/your/artifact.ipa"' \ \r
+  --form 'appName="your-app-name"' --progress-bar  | cat`);
+};
 
 export default async function Home() {
   const artifactNames = await getArtifactNames();
+  const command = await getExampleCommand();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-5 lg:p-24">

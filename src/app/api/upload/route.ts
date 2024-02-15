@@ -4,8 +4,9 @@ import path from "path";
 import JSZip from "jszip";
 import { ManifestParser } from "@/lib/extract-tools/manifest";
 import slugify from "slugify";
-import { HOST, UPLOAD_DIR } from "@/constants";
-import * as PlistParser from "plist";
+import { UPLOAD_DIR } from "@/constants";
+import { env } from "@/env";
+import { parsePlist } from "@/lib/extract-tools/plist-parse";
 
 const ALLOWED_EXTENSIONS = ["apk", "ipa"];
 
@@ -94,7 +95,7 @@ export async function PUT(req: Request) {
         JSON.stringify(manifest, null, 2)
       );
 
-      return NextResponse.json(`${HOST}/build/${appSlug}`);
+      return NextResponse.json(`${env.HOST}/build/${appSlug}`);
     }
 
     case "ipa": {
@@ -102,7 +103,7 @@ export async function PUT(req: Request) {
 
       const rawInfoPlist = await archive
         .file(/Payload\/[^/]+\/Info.plist/)[0]
-        ?.async("text");
+        ?.async("uint8array");
 
       if (!rawInfoPlist) {
         return NextResponse.json(
@@ -111,9 +112,7 @@ export async function PUT(req: Request) {
         );
       }
 
-      const plist = PlistParser.parse(rawInfoPlist) as
-        | Record<string, unknown>
-        | undefined;
+      const plist = parsePlist(rawInfoPlist) as Record<string, any> | undefined;
 
       if (typeof plist !== "object") {
         return NextResponse.json(
@@ -152,7 +151,7 @@ export async function PUT(req: Request) {
         JSON.stringify(plist, null, 2)
       );
 
-      return NextResponse.json(`${HOST}/build/${appSlug}`);
+      return NextResponse.json(`${env.HOST}/build/${appSlug}`);
     }
 
     default: {
