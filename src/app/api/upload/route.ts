@@ -5,8 +5,8 @@ import JSZip from "jszip";
 import { ManifestParser } from "@/lib/extract-tools/manifest";
 import slugify from "slugify";
 import { UPLOAD_DIR } from "@/constants";
-import * as PlistParser from "plist";
 import { env } from "@/env";
+import { parsePlist } from "@/lib/extract-tools/plist-parse";
 
 const ALLOWED_EXTENSIONS = ["apk", "ipa"];
 
@@ -103,7 +103,7 @@ export async function PUT(req: Request) {
 
       const rawInfoPlist = await archive
         .file(/Payload\/[^/]+\/Info.plist/)[0]
-        ?.async("text");
+        ?.async("uint8array");
 
       if (!rawInfoPlist) {
         return NextResponse.json(
@@ -112,9 +112,7 @@ export async function PUT(req: Request) {
         );
       }
 
-      const plist = PlistParser.parse(rawInfoPlist) as
-        | Record<string, unknown>
-        | undefined;
+      const plist = parsePlist(rawInfoPlist) as Record<string, any> | undefined;
 
       if (typeof plist !== "object") {
         return NextResponse.json(

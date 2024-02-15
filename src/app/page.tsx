@@ -22,9 +22,6 @@ const getExampleCommand = () => {
   --form 'appName="your-app-name"' --progress-bar  | cat`);
 };
 
-
-
-
 export default async function Home() {
   const artifactNames = await getArtifactNames();
   const command = await getExampleCommand();
