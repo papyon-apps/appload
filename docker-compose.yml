@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - HOST=${HOST}
 
     volumes:
       - ./uploads:/app/uploads
