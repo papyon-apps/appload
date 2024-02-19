@@ -27,24 +27,10 @@ Start the server
 yarn build && yarn start
 ```
 
-### Via Docker
-
-Copy the `.env.example` file to `.env` and update the environment variables as needed.
+### Via Docker (Build)
 
 ```bash
-cp .env.example .env
-```
-
-Build the Docker image
-
-```bash
-docker compose build
-```
-
-Start the server:
-
-```bash
-docker compose up -d
+docker run -d -p 3005:3000 -e HOST="http://localhost:3005"  -v ./uploads:/app/uploads papyonlab/appload
 ```
 
 
