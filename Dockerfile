@@ -29,7 +29,8 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
-ARG HOST
+# Actually, we don't need to set the HOST env variable in build stage
+ENV HOST "NOT_SET" 
 
 RUN \
     if [ -f yarn.lock ]; then yarn run build; \
