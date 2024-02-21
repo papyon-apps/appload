@@ -27,7 +27,7 @@ Start the server
 yarn build && yarn start
 ```
 
-### Via Docker (Build)
+### Via Docker
 
 ```bash
 docker run -d -p 3005:3000 -e HOST="http://localhost:3005"  -v ./uploads:/app/uploads papyonlab/appload
