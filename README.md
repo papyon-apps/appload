@@ -9,31 +9,31 @@ This platform is a web-based application designed to facilitate the uploading an
 
 ## Quick Start
 
-To set up the platform, start by installing the dependencies:
-
-```
-yarn install
-```
-
-Copy the `.env.example` file to `.env` and update the environment variables as needed.
+Clone the repository and enter your config
 
 ```bash
-cp .env.example .env
+git clone git@github.com:papyon-apps/appload.git # Clone the repo
+cd appload
+cp .env.example .env # Bootstrap the .env file
 ```
 
-Start the server
+Go to the `.env` file and fill your credentials
 
+#### Start the server
+
+```bash
+yarn install # Install the dependencies
+yarn build # Build the app
+yarn start # Serve the app
 ```
-yarn build && yarn start
-```
+
+--- 
 
 ### Via Docker
 
 ```bash
 docker run -d -p 3005:3000 -e HOST="http://localhost:3005"  -v ./uploads:/app/uploads papyonlab/appload
 ```
-
-
 
 
 ## Usage
