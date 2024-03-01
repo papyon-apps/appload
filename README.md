@@ -7,7 +7,7 @@
 
 This platform is a web-based application designed to facilitate the uploading and sharing of build artifacts among team members. It supports ad-hoc builds and APK files, along with direct installation of IPA files for iOS applications via iTunes.
 
-## Installation
+## Quick Start
 
 To set up the platform, start by installing the dependencies:
 
