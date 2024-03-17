@@ -20,3 +20,14 @@ export type Artifacts = {
   android: AndroidArtifact | null;
   ios: IOSArtifact | null;
 };
+
+export type ArtifactFile = {
+  name: string;
+  size: number;
+  content: Buffer;
+};
+
+export type MetadataFile = {
+  type: string;
+  content: Buffer;
+};

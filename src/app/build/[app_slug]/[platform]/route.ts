@@ -1,6 +1,6 @@
 import { UPLOAD_DIR } from "@/constants";
-import path from "path";
-import fs from "fs";
+import { AdapterError } from "@/lib/adapters/Errors";
+import { LocalFSAdapter } from "@/lib/adapters/LocalFSAdapter";
 
 type Params = {
   params: {
@@ -9,49 +9,22 @@ type Params = {
   };
 };
 
-export function GET(request: Request, { params }: Params) {
-  const directory = path.join(UPLOAD_DIR, params.app_slug);
-
-  if (!fs.existsSync(directory)) {
-    return new Response("No Development build found", { status: 404 });
+export async function GET(request: Request, { params }: Params) {
+  try {
+    const headers = new Headers();
+    headers.set("Content-Type", "application/octet-stream");
+    const adapter = new LocalFSAdapter({ uploadDir: UPLOAD_DIR });
+    const metadata = await adapter.getArtifactFile(
+      params.app_slug,
+      params.platform
+    );
+    headers.set("Content-Disposition", `attachment; filename=${metadata.name}`);
+    headers.set("Content-Length", metadata.size.toString());
+    return new Response(metadata.content, { headers });
+  } catch (err) {
+    const error = err as AdapterError;
+    return new Response(error.message, {
+      status: error.code || 500,
+    });
   }
-
-  const files = fs.readdirSync(directory);
-
-  const headers = new Headers();
-
-  headers.set("Content-Type", "application/octet-stream");
-
-  switch (params.platform) {
-    case "ios": {
-      const iosBuild = files.find((file) => file.endsWith(".ipa"));
-      if (!iosBuild) {
-        return new Response("No iOS development build found", { status: 404 });
-      }
-      const size = fs.statSync(path.join(directory, iosBuild)).size;
-      headers.set("Content-Disposition", `attachment; filename=${iosBuild}`);
-      headers.set("Content-Length", size.toString());
-      const content = fs.readFileSync(path.join(directory, iosBuild));
-
-      return new Response(content, { headers });
-    }
-    case "android": {
-      const androidBuild = files.find((file) => file.endsWith(".apk"));
-      if (!androidBuild) {
-        return new Response("No Android development build found", {
-          status: 404,
-        });
-      }
-      const size = fs.statSync(path.join(directory, androidBuild)).size;
-      headers.set(
-        "Content-Disposition",
-        `attachment; filename=${androidBuild}`
-      );
-      headers.set("Content-Length", size.toString());
-      const content = fs.readFileSync(path.join(directory, androidBuild));
-
-      return new Response(content, { headers });
-    }
-  }
-  return new Response("Hello worker!", { status: 200 });
 }
