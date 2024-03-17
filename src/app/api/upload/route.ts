@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { LocalFSAdapter } from "@/lib/adapters/LocalFSAdapter";
 import { UPLOAD_DIR } from "@/constants";
+import { AdapterError } from "@/lib/adapters/Errors";
 
 const ALLOWED_EXTENSIONS = ["apk", "ipa"];
 
@@ -40,10 +41,10 @@ export async function PUT(req: Request) {
 
     const result = await adapter.saveArtifact(appName, artifact);
     return NextResponse.json(result, { status: 201 });
-  } catch (error) {
-    return NextResponse.json(
-      { message: (error as Error).message },
-      { status: 500 }
-    );
+  } catch (err) {
+    const error = err as AdapterError;
+    return new Response(error.message, {
+      status: error.code || 500,
+    });
   }
 }

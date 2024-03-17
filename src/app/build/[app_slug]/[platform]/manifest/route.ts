@@ -1,4 +1,5 @@
 import { UPLOAD_DIR } from "@/constants";
+import { AdapterError } from "@/lib/adapters/Errors";
 import { LocalFSAdapter } from "@/lib/adapters/LocalFSAdapter";
 
 type Params = {
@@ -20,8 +21,10 @@ export async function GET(request: Request, { params }: Params) {
         "Content-Type": metadata.type,
       },
     });
-  } catch (error) {
-    console.error(error);
-    return new Response((error as Error).message, { status: 500 });
+  } catch (err) {
+    const error = err as AdapterError;
+    return new Response(error.message, {
+      status: error.code || 500,
+    });
   }
 }
