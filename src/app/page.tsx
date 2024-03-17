@@ -5,15 +5,13 @@ import fs from "fs";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { env } from "@/env";
+import { LocalFSAdapter } from "@/lib/adapters/LocalFSAdapter";
 
 export const dynamic = "force-dynamic";
 
 const getArtifactNames = async () => {
-  const files = await fs.promises.readdir(UPLOAD_DIR);
-
-  return files.filter((maybeDir) =>
-    fs.lstatSync(path.join(UPLOAD_DIR, maybeDir)).isDirectory()
-  );
+  const adapter = new LocalFSAdapter({ uploadDir: UPLOAD_DIR });
+  return await adapter.getAllArtifactNames();
 };
 
 const getExampleCommand = () => {
@@ -28,7 +26,14 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-5 lg:p-24">
-      <Image src="/papyon.png" alt="logo" width={200} height={200} />
+      <Image
+        priority
+        src="/papyon.png"
+        alt="logo"
+        width={200}
+        height={200}
+        className="w-auto h-auto"
+      />
       <h1 className="text-4xl font-bold mt-2">Artifacts Repository</h1>
 
       <div className="rounded-md border px-4 py-3 font-mono text-sm max-w-full overflow-x-auto mt-8">
