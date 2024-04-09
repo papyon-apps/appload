@@ -57,7 +57,6 @@ jobs:
               docker compose down
               docker compose build
               docker compose up -d
-            fi
             else
               echo "Docker Compose is down, starting services..."
               docker compose build
