@@ -23,6 +23,7 @@ const getArtifacts = async (app_slug: string) => {
   const artifacts: Artifacts = {
     android: null,
     ios: null,
+    name: app_slug,
   };
 
   const files = fs.readdirSync(directory);
