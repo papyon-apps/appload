@@ -19,4 +19,5 @@ type AndroidArtifact = {
 export type Artifacts = {
   android: AndroidArtifact | null;
   ios: IOSArtifact | null;
+  name: string;
 };
