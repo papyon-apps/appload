@@ -56,17 +56,17 @@ export async function Builds({ artifacts }: Props) {
 
   return (
     <div className="flex flex-col justify-center items-center p-10">
-      <div className="flex flex-row items-center gap-10 mt-10">
+      <div className="flex flex-row items-center justify-center gap-10 mt-10">
         <Link className="border border-white p-2 px-2.5 rounded-sm" href={"/"}>
           <h1>←</h1>
         </Link>
         <Menu as="div" className="relative inline-block text-left mt-10">
           <div>
-            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md border border-white px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-700">
               {artifacts.name || "Other Artifacts"}
               <ChevronDownIcon
                 aria-hidden="true"
-                className="-mr-1 h-5 w-5 text-gray-400"
+                className="-mr-1 h-5 w-5 text-white"
               />
             </MenuButton>
           </div>
